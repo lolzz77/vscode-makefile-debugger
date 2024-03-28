@@ -38,7 +38,7 @@ const fsAccessor:  FileAccessor = {
 
 // first parse command line arguments to see whether the debug adapter should run as a server
 let port = 0;
-const args = process.argv.slice(2);
+const args = process.argv.slice(2); // got this one from the launch.json there, "--server=4711"
 args.forEach(function (val, index, array) {
 	const portMatch = /^--server=(\d{4,5})$/.exec(val);
 	if (portMatch) {
@@ -50,6 +50,8 @@ if (port > 0) {
 
 	// start a server that creates a new session for every connection request
 	console.error(`waiting for debug protocol on port ${port}`);
+	// after this line, it wont start debugger unless you start it
+	// this line is just make it listen to incoming msg
 	Net.createServer((socket) => {
 		console.error('>> accepted connection from client');
 		socket.on('end', () => {

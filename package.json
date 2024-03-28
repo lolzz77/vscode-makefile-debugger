@@ -126,14 +126,14 @@
     ],
     "breakpoints": [
       {
-        "language": "markdown"
+        "language": "makefile"
       }
     ],
     "debuggers": [
       {
         "type": "mock",
         "languages": [
-          "markdown"
+          "makefile"
         ],
         "label": "Mock Debug",
         "program": "./out/debugAdapter.js",

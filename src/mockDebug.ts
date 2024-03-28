@@ -217,7 +217,7 @@ export class MockDebugSession extends LoggingDebugSession {
 		response.body.supportTerminateDebuggee = true;
 		response.body.supportsFunctionBreakpoints = true;
 		response.body.supportsDelayedStackTraceLoading = true;
-
+		response.message = "HELLO";
 		this.sendResponse(response);
 
 		// since this debug adapter can accept configuration requests like 'setBreakpoint' at any time,
@@ -255,6 +255,21 @@ export class MockDebugSession extends LoggingDebugSession {
 
 		// start the program in the runtime
 		await this._runtime.start(args.program, !!args.stopOnEntry, !args.noDebug);
+
+		// const { spawn } = require('node:child_process');
+		// const ls = spawn('make', ['-f', '/workspace/vscode-makefile-debugger/sampleWorkspace/Makefile']);
+		
+		// ls.stdout.on('data', (data) => {
+		//   console.log(`stdout: ${data}`);
+		// });
+		
+		// ls.stderr.on('data', (data) => {
+		//   console.error(`stderr: ${data}`);
+		// });
+		
+		// ls.on('close', (code) => {
+		//   console.log(`child process exited with code ${code}`);
+		// });
 
 		if (args.compileError) {
 			// simulate a compile/build error in "launch" request:

@@ -56,7 +56,7 @@ export function activateMockDebug(context: vscode.ExtensionContext, factory?: vs
 
 	context.subscriptions.push(vscode.commands.registerCommand('extension.mock-debug.getProgramName', config => {
 		return vscode.window.showInputBox({
-			placeHolder: "Please enter the name of a markdown file in the workspace folder",
+			placeHolder: "Please enter the name of a makefile file in the workspace folder",
 			value: "readme.md"
 		});
 	}));
@@ -101,7 +101,9 @@ export function activateMockDebug(context: vscode.ExtensionContext, factory?: vs
 
 	// override VS Code's default implementation of the debug hover
 	// here we match only Mock "variables", that are words starting with an '$'
-	context.subscriptions.push(vscode.languages.registerEvaluatableExpressionProvider('markdown', {
+
+	// this will be triggered whenever you hover over the codes
+	context.subscriptions.push(vscode.languages.registerEvaluatableExpressionProvider('makefile', {
 		provideEvaluatableExpression(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.EvaluatableExpression> {
 
 			const VARIABLE_REGEXP = /\$[a-z][a-z0-9]*/ig;
@@ -120,7 +122,7 @@ export function activateMockDebug(context: vscode.ExtensionContext, factory?: vs
 	}));
 
 	// override VS Code's default implementation of the "inline values" feature"
-	context.subscriptions.push(vscode.languages.registerInlineValuesProvider('markdown', {
+	context.subscriptions.push(vscode.languages.registerInlineValuesProvider('makefile', {
 
 		provideInlineValues(document: vscode.TextDocument, viewport: vscode.Range, context: vscode.InlineValueContext) : vscode.ProviderResult<vscode.InlineValue[]> {
 
@@ -163,7 +165,7 @@ class MockConfigurationProvider implements vscode.DebugConfigurationProvider {
 		// if launch.json is missing or empty
 		if (!config.type && !config.request && !config.name) {
 			const editor = vscode.window.activeTextEditor;
-			if (editor && editor.document.languageId === 'markdown') {
+			if (editor && editor.document.languageId === 'makefile') {
 				config.type = 'mock';
 				config.name = 'Launch';
 				config.request = 'launch';
